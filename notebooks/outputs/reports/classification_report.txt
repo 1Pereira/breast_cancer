@@ -1,0 +1,39 @@
+==================================================
+Modelo: Regressão Logística
+Acurácia: 0.9649
+
+              precision    recall  f1-score   support
+
+     Benigno       0.96      0.99      0.97        72
+     Maligno       0.97      0.93      0.95        42
+
+    accuracy                           0.96       114
+   macro avg       0.97      0.96      0.96       114
+weighted avg       0.97      0.96      0.96       114
+
+==================================================
+Modelo: Random Forest
+Acurácia: 0.9737
+
+              precision    recall  f1-score   support
+
+     Benigno       0.96      1.00      0.98        72
+     Maligno       1.00      0.93      0.96        42
+
+    accuracy                           0.97       114
+   macro avg       0.98      0.96      0.97       114
+weighted avg       0.97      0.97      0.97       114
+
+==================================================
+Modelo: XGBoost
+Acurácia: 0.9737
+
+              precision    recall  f1-score   support
+
+     Benigno       0.96      1.00      0.98        72
+     Maligno       1.00      0.93      0.96        42
+
+    accuracy                           0.97       114
+   macro avg       0.98      0.96      0.97       114
+weighted avg       0.97      0.97      0.97       114
+
