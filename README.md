@@ -1,28 +1,28 @@
 # 🎗️ Breast Cancer Classification
 
-> Classificação de tumores mamários como **benignos** ou **malignos** a partir do Wisconsin Breast Cancer Dataset, utilizando técnicas de Machine Learning e interpretabilidade com SHAP values.
+> Classification of breast tumors as **benign** or **malignant** using the Wisconsin Breast Cancer Dataset, applying Machine Learning techniques and model interpretability with SHAP values.
 
 ---
 
-## 📋 Sobre o Projeto
+## 📋 About the Project
 
-O Wisconsin Breast Cancer Dataset foi utilizado como base para a construção de um pipeline completo de classificação binária. Características morfológicas extraídas de imagens de células foram analisadas e utilizadas no treinamento de três modelos de classificação. A interpretabilidade das predições foi garantida por meio de SHAP values.
+The Wisconsin Breast Cancer Dataset was used as the foundation for building a complete binary classification pipeline. Morphological features extracted from cell images were analyzed and used to train three classification models. Prediction interpretability was ensured through SHAP values.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Project Structure
 
-```
+```plaintext
 breast-cancer/
 │
 ├── data/
-│   └── data.csv                  # Dataset original (Wisconsin Breast Cancer)
+│   └── data.csv                  # Original dataset (Wisconsin Breast Cancer)
 │
 ├── notebooks/
-│   └── breast_cancer.ipynb       # Notebook principal com todo o pipeline
+│   └── breast_cancer.ipynb       # Main notebook containing the full pipeline
 │
 ├── outputs/
-│   ├── figures/                  # Gráficos gerados durante a EDA
+│   ├── figures/                  # Charts generated during EDA
 │   │   ├── distribuicao_diagnosticos.png
 │   │   ├── matriz_correlacao.png
 │   │   ├── boxplots_features.png
@@ -41,73 +41,73 @@ breast-cancer/
 
 ## 🔬 Pipeline
 
+```plaintext
+Loading → Cleaning → EDA → Preprocessing → Training → Evaluation → Interpretability
 ```
-Carregamento → Limpeza → EDA → Pré-processamento → Treinamento → Avaliação → Interpretabilidade
-```
 
-| Etapa | Descrição |
-|---|---|
-| **Carregamento & Limpeza** | Remoção da coluna `id` e colunas totalmente nulas |
-| **EDA** | Distribuição de classes, correlações, boxplots, violin e joint plot |
-| **Pré-processamento** | Label Encoding, Train/Test Split (80/20), StandardScaler |
-| **Treinamento** | Regressão Logística, Random Forest, XGBoost |
-| **Avaliação** | Matrizes de confusão e acurácia por modelo |
-| **Interpretabilidade** | SHAP summary plot (dot) e bar plot |
+| Step                   | Description                                                               |
+| ---------------------- | ------------------------------------------------------------------------- |
+| **Loading & Cleaning** | Removal of the `id` column and fully null columns                         |
+| **EDA**                | Class distribution, correlations, boxplots, violin plots, and joint plots |
+| **Preprocessing**      | Label Encoding, Train/Test Split (80/20), StandardScaler                  |
+| **Training**           | Logistic Regression, Random Forest, XGBoost                               |
+| **Evaluation**         | Confusion matrices and model accuracy                                     |
+| **Interpretability**   | SHAP summary plot (dot) and bar plot                                      |
 
 ---
 
-## 📊 Resultados
+## 📊 Results
 
-| Modelo | Acurácia |
-|---|---|
-| Regressão Logística | 96.49% |
-| Random Forest | **97.37%** |
-| XGBoost | **97.37%** |
+| Model               | Accuracy   |
+| ------------------- | ---------- |
+| Logistic Regression | 96.49%     |
+| Random Forest       | **97.37%** |
+| XGBoost             | **97.37%** |
 
-> ⚠️ **Recall da classe Maligno** foi priorizado na análise, pois falsos negativos (tumores malignos classificados como benignos) representam o erro de maior impacto clínico.
-
----
-
-## 🔍 Destaques da Análise
-
-### Análise Exploratória (EDA)
-
-**Correlação entre features de tamanho:**
-Foi identificada altíssima multicolinearidade (correlação próxima a 1.0) entre `radius_mean`, `perimeter_mean` e `area_mean`. Matematicamente esperado, pois área e perímetro são derivados do raio — porém crítico de mapear, pois algoritmos lineares sofrem com esse fenômeno.
-
-![Matriz de Correlação](outputs/figures/matriz_correlacao.png)
-
-**Separação entre classes:**
-Features ligadas ao tamanho celular apresentam separação visual clara entre benignos e malignos. Tumores malignos exibem distribuições consistentemente mais elevadas, indicando forte poder preditivo dessas variáveis.
-
-![Boxplots das Features](outputs/figures/boxplots.png)
+> ⚠️ **Recall for the Malignant class** was prioritized during the analysis because false negatives (malignant tumors classified as benign) represent the most clinically impactful error.
 
 ---
 
-### Treinamento e Avaliação
+## 🔍 Analysis Highlights
 
-Foram treinados três modelos: *Regressão Logística* (baseline linear para classificação binária) e dois algoritmos ensemble — *Random Forest* e *XGBoost*.
+### Exploratory Data Analysis (EDA)
 
-![Matrizes de Confusão](outputs/reports/matriz_confusao.png)
+**Correlation between size-related features:**
+A very high multicollinearity (correlation close to 1.0) was identified between `radius_mean`, `perimeter_mean`, and `area_mean`. This is mathematically expected since area and perimeter are derived from radius — however, mapping this relationship is critical because linear algorithms are sensitive to multicollinearity.
 
-A análise focou no quadrante de **Falsos Negativos** (tumor maligno classificado como benigno), que representa o erro de maior impacto clínico. Modelos baseados em árvores demonstraram melhor capacidade de capturar a fronteira de decisão complexa entre as classes.
+![Correlation Matrix](outputs/figures/matriz_correlacao.png)
+
+**Class separation:**
+Features related to cell size show a clear visual separation between benign and malignant tumors. Malignant tumors consistently present higher distributions, indicating strong predictive power for these variables.
+
+![Feature Boxplots](outputs/figures/boxplots.png)
 
 ---
 
-### Explainable AI com SHAP
+### Training and Evaluation
 
-Para garantir que o modelo baseou suas decisões em critérios biologicamente coerentes — e não em ruídos dos dados — foi aplicada a biblioteca **SHAP (SHapley Additive exPlanations)** sobre o XGBoost.
+Three models were trained: *Logistic Regression* (linear baseline for binary classification) and two ensemble algorithms — *Random Forest* and *XGBoost*.
 
-![Impacto Global das Features - SHAP](outputs/reports/impacto_features.png)
+![Confusion Matrices](outputs/reports/matriz_confusao.png)
 
-- Cada ponto representa um paciente do conjunto de teste
-- **Cores quentes (vermelho):** valor original alto da feature
-- **Cores frias (azul):** valor original baixo
-- Features como `concave points_worst` e `area_se` empurram fortemente a predição para Maligno quando seus valores são altos — consistente com a biologia tumoral, onde irregularidade e tamanho celular estão associados à malignidade
+The analysis focused on the **False Negative** quadrant (malignant tumor classified as benign), which represents the most critical clinical error. Tree-based models demonstrated a better ability to capture the complex decision boundary between classes.
 
-### Features Mais Importantes (SHAP)
+---
 
-As 5 features com maior impacto global no modelo XGBoost foram:
+### Explainable AI with SHAP
+
+To ensure that the model based its decisions on biologically coherent criteria — rather than noise in the data — the **SHAP (SHapley Additive exPlanations)** library was applied to the XGBoost model.
+
+![Global Feature Impact - SHAP](outputs/reports/impacto_features.png)
+
+* Each point represents a patient from the test set
+* **Warm colors (red):** high original feature value
+* **Cool colors (blue):** low original feature value
+* Features such as `concave points_worst` and `area_se` strongly push predictions toward Malignant when their values are high — consistent with tumor biology, where irregularity and cell size are associated with malignancy
+
+### Most Important Features (SHAP)
+
+The 5 features with the greatest global impact on the XGBoost model were:
 
 1. `concave points_worst`
 2. `texture_worst`
@@ -117,15 +117,17 @@ As 5 features com maior impacto global no modelo XGBoost foram:
 
 ---
 
-## ⚙️ Como Executar
+## ⚙️ How to Run
 
-### 1. Clone o repositório
+### 1. Clone the repository
+
 ```bash
-git clone https://github.com/seu-usuario/breast-cancer.git
+git clone https://github.com/your-username/breast-cancer.git
 cd breast-cancer
 ```
 
-### 2. Crie e ative o ambiente virtual
+### 2. Create and activate the virtual environment
+
 ```bash
 python -m venv venv
 
@@ -136,21 +138,23 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 3. Instale as dependências
+### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Execute o notebook
+### 4. Run the notebook
+
 ```bash
 jupyter notebook notebooks/breast_cancer.ipynb
 ```
 
 ---
 
-## 📦 Dependências
+## 📦 Dependencies
 
-```
+```plaintext
 pandas
 numpy
 matplotlib
@@ -161,15 +165,15 @@ shap
 jupyter
 ```
 
-> O arquivo `requirements.txt` com versões fixadas está disponível na raiz do projeto.
+> The `requirements.txt` file with pinned versions is available in the project root.
 
 ---
 
 ## 📁 Dataset
 
-O **Wisconsin Breast Cancer Dataset** é amplamente utilizado em benchmarks de machine learning para classificação binária na área médica.
+The **Wisconsin Breast Cancer Dataset** is widely used in machine learning benchmarks for binary classification in the medical domain.
 
-- **Amostras:** 569
-- **Features:** 30 características numéricas (média, erro padrão e pior valor de 10 atributos)
-- **Classes:** Benigno (357 — 62.7%) / Maligno (212 — 37.3%)
-- **Fonte:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29)
+* **Samples:** 569
+* **Features:** 30 numerical characteristics (mean, standard error, and worst value of 10 attributes)
+* **Classes:** Benign (357 — 62.7%) / Malignant (212 — 37.3%)
+* **Source:** https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)
